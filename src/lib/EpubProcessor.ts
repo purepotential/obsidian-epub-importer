@@ -152,6 +152,9 @@ export default class EpubProcessor {
     }
 
     private getChapterPaths(chapter: Chapter): string[] {
+        if (this.settings.granularity === 0) {
+            return [chapter.name];
+        }
         const paths = [chapter.name];
         const getPaths = (cpt: Chapter) => {
             if (cpt.parent) {
@@ -160,10 +163,6 @@ export default class EpubProcessor {
             }
         };
         getPaths(chapter);
-
-        if (chapter.level < this.settings.granularity && chapter.subItems.length != 0) {
-            paths.push(normalize(chapter.name));
-        }
         return paths;
     }
 
