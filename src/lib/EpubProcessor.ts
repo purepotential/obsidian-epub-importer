@@ -375,10 +375,13 @@ export default class EpubProcessor {
         });
 
         // Process footnotes in the document before converting to markdown
-        doc.querySelectorAll('[role="doc-noteref"], .footnote-ref').forEach(ref => {
-            const id = ref.getAttribute('href')?.replace('#', '');
-            if (id) {
-                ref.textContent = `[^${id}]`;
+        doc.querySelectorAll('a').forEach(ref => {
+            const href = ref.getAttribute('href');
+            if (href) {
+                const cleanId = href.replace(/^.*?#/, '').replace(/^footnote-?/i, '').replace(/-?backlink$/i, '');
+                if (/^\d+$/.test(cleanId) || footnoteMap.has(cleanId)) {
+                    ref.textContent = `[^${cleanId}]`;
+                }
             }
         });
 
