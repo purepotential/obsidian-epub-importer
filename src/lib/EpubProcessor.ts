@@ -166,52 +166,29 @@ export default class EpubProcessor {
     }
 
     private generateChapterContent(chapter: Chapter, index: number, allChapters: Chapter[]): string {
-        if (!this.settings.noteTemplate) return "";
+        let content = "";
 
-        // Create a map to store footnotes specific to this chapter
-        const chapterFootnotes = new Map<string, string>();
-        const processedIds = new Set<string>();
-
-        // Process each section and collect footnotes
-        const chapterContent = chapter.sections.map(section => {
-            const { markdown, footnotes } = this.htmlToMD(section.html);
-            // Add new footnotes to the chapter's collection
-            footnotes.forEach((content, id) => {
-                if (!processedIds.has(id)) {
-                    chapterFootnotes.set(id, content);
-                    processedIds.add(id);
-                }
+        if (this.settings.noteTemplate) {
+            const chapterContent = chapter.sections.map(st => this.htmlToMD(st.html)).join("\n\n");
+            content = templateWithVariables(this.settings.noteTemplate, {
+                created_time: Date.now().toString(),
+                content: chapterContent,
+                prev: index > 0 ? allChapters[index - 1].name : "",
+                next: index < allChapters.length - 1 ? allChapters[index + 1].name : "",
+                chapter_name: chapter.name,
+                chapter_level: chapter.level.toString(),
+                chapter_index: (index + 1).toString(),
+                book_name: this.parser.meta["title"] || "",
+                book_author: this.parser.meta["author"] || "",
+                book_publisher: this.parser.meta["publisher"] || "",
+                book_language: this.parser.meta["language"] || "",
+                book_rights: this.parser.meta["rights"] || "",
+                book_description: this.parser.meta["description"] || "",
+                total_chars: chapterContent.length.toString()
             });
-            return markdown;
-        }).join("\n\n");
-
-        // Generate footnote content for this chapter
-        let footnoteContent = '';
-        if (chapterFootnotes.size > 0) {
-            footnoteContent = '\n\n' + Array.from(chapterFootnotes.entries())
-                .map(([id, content]) => `[^${id}]: ${content}  `)
-                .join('\n\n');
         }
 
-        // Combine chapter content with its footnotes
-        const finalContent = chapterContent + footnoteContent;
-
-        return templateWithVariables(this.settings.noteTemplate, {
-            created_time: Date.now().toString(),
-            content: finalContent,
-            prev: index > 0 ? allChapters[index - 1].name : "",
-            next: index < allChapters.length - 1 ? allChapters[index + 1].name : "",
-            chapter_name: chapter.name,
-            chapter_level: chapter.level.toString(),
-            chapter_index: (index + 1).toString(),
-            book_name: this.parser.meta["title"] || "",
-            book_author: this.parser.meta["author"] || "",
-            book_publisher: this.parser.meta["publisher"] || "",
-            book_language: this.parser.meta["language"] || "",
-            book_rights: this.parser.meta["rights"] || "",
-            book_description: this.parser.meta["description"] || "",
-            total_chars: finalContent.length.toString()
-        });
+        return content;
     }
 
     private async createMocFile(folderPath: string, epubName: string) {
@@ -250,7 +227,7 @@ export default class EpubProcessor {
         }
     }
 
-    htmlToMD(htmlString: string): { markdown: string; footnotes: Map<string, string> } {
+    htmlToMD(htmlString: string): string {
         if (this.settings.reformatting) {
             htmlString = beautify.html(htmlString, { indent_size: 0 });
         }
@@ -438,9 +415,6 @@ export default class EpubProcessor {
             console.log('No footnote content generated');
         }
 
-        return {
-            markdown: markdown.trim(),
-            footnotes: footnoteMap
-        };
+        return markdown.trim();
     }
 }
