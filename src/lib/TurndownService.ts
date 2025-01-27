@@ -53,7 +53,13 @@ export function create(assetsPath: string, imageFormat: string): TurndownService
       return false;
     },
     replacement: (content, node) => {
-      return content.replace(/^(\[\^\d+\])(.*?)$/gm, "$1: $2\n");
+      const footnoteText = content.trim();
+      const footnoteMatch = footnoteText.match(/^\[\^(\d+)\](.*?)$/);
+      if (footnoteMatch) {
+        const [, number, text] = footnoteMatch;
+        return `[^${number}]: ${text.trim()}\n`;
+      }
+      return content;
     }
   });
 
