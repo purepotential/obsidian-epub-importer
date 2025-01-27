@@ -4,7 +4,13 @@ import * as path from "path";
 
 export function create(assetsPath: string, imageFormat: string): TurndownService {
   const turndownService = new TurndownService({
-    headingStyle: "atx"
+    headingStyle: "atx",
+    bulletListMarker: "-",
+    codeBlockStyle: "fenced",
+    emDelimiter: "_",
+    strongDelimiter: "**",
+    linkStyle: "inlined",
+    linkReferenceStyle: "full"
   });
 
   turndownService.remove("title");
