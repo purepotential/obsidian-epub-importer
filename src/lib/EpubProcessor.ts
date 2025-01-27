@@ -1,4 +1,3 @@
-
 import { EpubImporterSettings } from "../settings/settings";
 import EpubParser, { Chapter } from "./EpubParser";
 import * as path from "path";
@@ -235,21 +234,32 @@ export default class EpubProcessor {
 
         // Parse document once
         const doc = new DOMParser().parseFromString(htmlString, "text/html");
-        
-        // Extract footnotes with improved selectors
+
+        // Extract footnotes with content
         const footnotes = doc.querySelectorAll('[id^="footnote"], [id*="footnote"], .footnote, [id^="-"], [id$="-backlink"], [class*="footnote"], [role="doc-noteref"], [role="doc-note"], aside[epub\\:type="footnote"]');
         const processedIds = new Set();
+        const footnoteMap = new Map();
+
+        // First pass - collect all footnote content
+        Array.from(doc.querySelectorAll('[id], [role="doc-note"], aside[epub\\:type="footnote"]')).forEach(element => {
+            const id = element.getAttribute('id');
+            if (id) {
+                footnoteMap.set(id, element.textContent?.trim() || '');
+            }
+        });
+
         const footnoteContent = Array.from(footnotes).map(footnote => {
             let id = footnote.getAttribute('id') || '';
-            const href = footnote.getAttribute('href')?.replace('#', '') || '';
-            
-            // Extract ID from either direct ID or referenced footnote
+            let href = footnote.getAttribute('href')?.replace(/^#/, '') || '';
+            let content = '';
+
+            // Clean up ID
             id = id.replace(/^footnote[-_]?/i, '')
                   .replace(/-?backlink$/i, '')
                   .replace(/^note[-_]?/i, '')
                   .replace(/^fn[-_]?/i, '')
                   .replace(/^-+|-+$/g, '');
-                  
+
             // If no valid ID found, try to use href
             if (!id && href) {
                 id = href.replace(/^footnote[-_]?/i, '')
@@ -257,14 +267,33 @@ export default class EpubProcessor {
                        .replace(/^fn[-_]?/i, '')
                        .replace(/^-+|-+$/g, '');
             }
-            
+
             // Skip if we've already processed this ID
             if (!id || processedIds.has(id)) return '';
             processedIds.add(id);
-            
-            const content = footnote.textContent?.trim() || '';
+
+            // Try to get content from the footnote itself or its target
+            content = footnote.textContent?.trim() || '';
+
+            // If footnote is a reference, try to get content from the target
+            if (href && footnoteMap.has(href)) {
+                const targetContent = footnoteMap.get(href);
+                if (targetContent && targetContent.length > content.length) {
+                    content = targetContent;
+                }
+            }
+
+            // If still no content, try to find content by ID
+            if (!content && footnoteMap.has(id)) {
+                content = footnoteMap.get(id);
+            }
+
             if (!content) return '';
-            
+
+            // Clean up the content
+            content = content.replace(/^[\d\s.]+/, ''); // Remove leading numbers
+            content = content.replace(/\s+/g, ' ').trim(); // Normalize whitespace
+
             return `[^${id}]: ${content}`;
         }).filter(note => note).join('\n\n');
 
