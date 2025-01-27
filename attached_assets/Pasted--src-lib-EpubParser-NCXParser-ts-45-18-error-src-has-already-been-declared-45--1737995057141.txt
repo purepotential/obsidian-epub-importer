@@ -1,0 +1,53 @@
+ > src/lib/EpubParser/NCXParser.ts:45:18: error: "src" has already been declared
+    45 │             const src = findProperty(navPoint,"content")[0].$["src"];
+       ╵                   ~~~
+   src/lib/EpubParser/NCXParser.ts:23:16: note: "src" was originally declared here
+    23 │             let src = findProperty(navPoint,"content")[0].$["src"];
+       ╵                 ~~~
+
+1 error
+/Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:1160
+  let error = new Error(`${text}${summary}`);
+              ^
+
+Error: Build failed with 1 error:
+src/lib/EpubParser/NCXParser.ts:45:18: error: "src" has already been declared
+    at failureErrorWithLog (/Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:1160:15)
+    at buildResponseToResult (/Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:896:32)
+    at /Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:991:20
+    at /Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:542:9
+    at handleIncomingPacket (/Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:631:9)
+    at Socket.readFromStdout (/Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:509:7)
+    at Socket.emit (node:events:507:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  errors: [
+    {
+      detail: undefined,
+      location: {
+        column: 18,
+        file: 'src/lib/EpubParser/NCXParser.ts',
+        length: 3,
+        line: 45,
+        lineText: '            const src = findProperty(navPoint,"content")[0].$["src"];',
+        namespace: ''
+      },
+      notes: [
+        {
+          location: {
+            column: 16,
+            file: 'src/lib/EpubParser/NCXParser.ts',
+            length: 3,
+            line: 23,
+            lineText: '            let src = findProperty(navPoint,"content")[0].$["src"];',
+            namespace: ''
+          },
+          text: '"src" was originally declared here'
+        }
+      ],
+      text: '"src" has already been declared'
+    }
+  ],
+  warnings: []
+}
