@@ -236,13 +236,35 @@ export default class EpubProcessor {
         // Parse document once
         const doc = new DOMParser().parseFromString(htmlString, "text/html");
         
-        // Extract footnotes
-        const footnotes = doc.querySelectorAll('[id^="footnote"], .footnote, [id^="-"], [id$="-backlink"]');
+        // Extract footnotes with improved selectors
+        const footnotes = doc.querySelectorAll('[id^="footnote"], [id*="footnote"], .footnote, [id^="-"], [id$="-backlink"], [class*="footnote"], [role="doc-noteref"], [role="doc-note"], aside[epub\\:type="footnote"]');
+        const processedIds = new Set();
         const footnoteContent = Array.from(footnotes).map(footnote => {
             let id = footnote.getAttribute('id') || '';
-            id = id.replace('footnote', '').replace('-backlink', '').replace(/^-+|-+$/g, '');
+            const href = footnote.getAttribute('href')?.replace('#', '') || '';
+            
+            // Extract ID from either direct ID or referenced footnote
+            id = id.replace(/^footnote[-_]?/i, '')
+                  .replace(/-?backlink$/i, '')
+                  .replace(/^note[-_]?/i, '')
+                  .replace(/^fn[-_]?/i, '')
+                  .replace(/^-+|-+$/g, '');
+                  
+            // If no valid ID found, try to use href
+            if (!id && href) {
+                id = href.replace(/^footnote[-_]?/i, '')
+                       .replace(/^note[-_]?/i, '')
+                       .replace(/^fn[-_]?/i, '')
+                       .replace(/^-+|-+$/g, '');
+            }
+            
+            // Skip if we've already processed this ID
+            if (!id || processedIds.has(id)) return '';
+            processedIds.add(id);
+            
             const content = footnote.textContent?.trim() || '';
-            if (!id || !content) return '';
+            if (!content) return '';
+            
             return `[^${id}]: ${content}`;
         }).filter(note => note).join('\n\n');
 
