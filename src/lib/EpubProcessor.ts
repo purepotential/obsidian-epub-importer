@@ -402,29 +402,17 @@ export default class EpubProcessor {
             }
         }
 
-        // Find all footnote references in this section's markdown
-        const footnoteRefs = markdown.match(/\[\^([^\]]+)\]/g) || [];
-        const usedFootnotes = new Set(footnoteRefs.map(ref => ref.slice(2, -1)));
-
-        // Filter footnote content to only include footnotes referenced in this section
-        const sectionFootnotes = footnoteContent.split('\n\n')
-            .filter(note => {
-                const match = note.match(/\[\^([^\]]+)\]:/);
-                return match && usedFootnotes.has(match[1]);
-            })
-            .join('\n\n');
-
         // Clean up footnotes from main content to avoid duplicates
         markdown = markdown.replace(/\[\^\d+\]:.+?\n\n/g, '');
 
         // Ensure there's always two newlines before footnotes
-        if (sectionFootnotes) {
-            console.log('Generated section footnote content:', sectionFootnotes);
+        if (footnoteContent) {
+            console.log('Generated footnote content:', footnoteContent);
             markdown = markdown.trim();
             // Force append footnotes with double newline
-            markdown = markdown + '\n\n' + sectionFootnotes.trim() + '\n';
+            markdown = markdown + '\n\n' + footnoteContent.trim() + '\n';
         } else {
-            console.log('No footnote content generated for this section');
+            console.log('No footnote content generated');
         }
 
         return markdown.trim();
