@@ -75,6 +75,11 @@ export class ContentSplitter {
             if (node.nodeType === Node.ELEMENT_NODE) {
                 const element = node as Element;
                 const id = element.getAttribute("id");
+                // Handle TOC references
+                if (element.tagName.toLowerCase() === 'nav' && element.getAttribute('epub:type') === 'toc') {
+                    currentHtml += `# Table of Contents\n\n`;
+                    return;
+                }
                 
                 if (id && file.hrefs.includes(id)) {
                     if (currentHtml && currentAnchorIndex >= 0) {
