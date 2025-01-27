@@ -232,8 +232,9 @@ export default class EpubProcessor {
             htmlString = beautify.html(htmlString, { indent_size: 0 });
         }
 
-        // Parse document once
-        const doc = new DOMParser().parseFromString(htmlString, "text/html");
+        // Fix DOMParser already declared error by using a different variable name
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlString, "text/html");
 
         // Extract footnotes with content using a broader set of selectors to handle different EPUB formats
         const footnotes = doc.querySelectorAll([
@@ -268,11 +269,12 @@ export default class EpubProcessor {
         footnoteLinks.forEach((links, id) => {
             links.forEach(link => {
                 const href = link.getAttribute('href')?.replace(/^#/, '');
-                if (href && !footnoteMap.has(id)) {
-                    const linkedElement = doc.getElementById(href);
-                    if (linkedElement) {
-                        footnoteMap.set(id, linkedElement.innerHTML);
-                    }
+                if (!href) return;
+                
+                // Try to find content in both current document and footnoteMap
+                const linkedElement = doc.getElementById(href);
+                if (linkedElement && (!footnoteMap.has(id) || linkedElement.textContent.length > footnoteMap.get(id).length)) {
+                    footnoteMap.set(id, linkedElement.innerHTML);
                 }
             });
         });
