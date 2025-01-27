@@ -35,9 +35,13 @@ export class NCXParser {
                 const cleanSrc = src.replace(/toc\.xhtml(#.*)?/g, "").replace(/%20/g, " ");
                 const filePath = cleanSrc ? path.posix.join(path.dirname(this.filePath), cleanSrc) : "";
                 if (!filePath || !jetpack.exists(filePath)) return null;
-            const subItems = navPoint["navPoint"]?.map(pt => getToc(pt, level + 1)) || [];
+            const subItems = (navPoint["navPoint"]?.map(pt => getToc(pt, level + 1)) || []).filter(Boolean);
             const chapter = new Chapter(title, filePath, subItems, level);
-            subItems.forEach(sub => sub.parent = chapter);
+            subItems.forEach(sub => {
+                if (sub) {
+                    sub.parent = chapter;
+                }
+            });
 
             return chapter;
         };
