@@ -283,6 +283,8 @@ export default class EpubProcessor {
 
         console.log('Found footnotes:', footnotes.length);
         console.log('Footnote map size:', footnoteMap.size);
+        console.log('Footnote map keys:', Array.from(footnoteMap.keys()));
+        console.log('Footnotes HTML:', Array.from(footnotes).map(f => f.outerHTML).slice(0, 3));
         
         const footnoteContent = Array.from(footnotes).map(footnote => {
             let id = footnote.getAttribute('id') || '';
@@ -305,8 +307,12 @@ export default class EpubProcessor {
             }
 
             // Skip if we've already processed this ID
-            if (!id || processedIds.has(id)) return '';
+            if (!id || processedIds.has(id)) {
+                console.log('Skipping footnote - no ID or already processed:', { id, hasId: !!id, alreadyProcessed: processedIds.has(id) });
+                return '';
+            }
             processedIds.add(id);
+            console.log('Processing footnote:', { id, href, contentLength: content?.length });
 
             // Try to get content from the footnote itself or its target
             content = footnote.textContent?.trim() || '';
