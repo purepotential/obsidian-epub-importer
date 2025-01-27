@@ -235,8 +235,17 @@ export default class EpubProcessor {
         // Parse document once
         const doc = new DOMParser().parseFromString(htmlString, "text/html");
 
-        // Extract footnotes with content
-        const footnotes = doc.querySelectorAll('[id^="footnote"], [id*="footnote"], .footnote, [id^="-"], [id$="-backlink"], [class*="footnote"], [role="doc-noteref"], [role="doc-note"], aside[epub\\:type="footnote"], .footnotes li');
+        // Extract footnotes with content using a broader set of selectors to handle different EPUB formats
+        const footnotes = doc.querySelectorAll([
+            '[id^="footnote"]', '[id*="footnote"]', '.footnote', 
+            '[id^="-"]', '[id$="-backlink"]', '[class*="footnote"]',
+            '[role="doc-noteref"]', '[role="doc-note"]', 
+            'aside[epub\\:type="footnote"]', '.footnotes li',
+            '[epub\\:type="footnote"]', '[epub\\:type="note"]',
+            '[class*="note"]', '[class*="annotation"]',
+            '.references li', '.endnote', '.endnotes li'
+        ].join(','));
+
         const processedIds = new Set();
         const footnoteMap = new Map();
         const footnoteLinks = new Map();
