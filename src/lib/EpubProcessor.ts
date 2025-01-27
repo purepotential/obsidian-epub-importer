@@ -236,16 +236,36 @@ export default class EpubProcessor {
         const doc = new DOMParser().parseFromString(htmlString, "text/html");
 
         // Extract footnotes with content
-        const footnotes = doc.querySelectorAll('[id^="footnote"], [id*="footnote"], .footnote, [id^="-"], [id$="-backlink"], [class*="footnote"], [role="doc-noteref"], [role="doc-note"], aside[epub\\:type="footnote"]');
+        const footnotes = doc.querySelectorAll('[id^="footnote"], [id*="footnote"], .footnote, [id^="-"], [id$="-backlink"], [class*="footnote"], [role="doc-noteref"], [role="doc-note"], aside[epub\\:type="footnote"], .footnotes li');
         const processedIds = new Set();
         const footnoteMap = new Map();
+        const footnoteLinks = new Map();
 
-        // First pass - collect all footnote content
-        Array.from(doc.querySelectorAll('[id], [role="doc-note"], aside[epub\\:type="footnote"]')).forEach(element => {
+        // First pass - collect all footnote content and links
+        Array.from(doc.querySelectorAll('[id], [role="doc-note"], aside[epub\\:type="footnote"], .footnotes li')).forEach(element => {
             const id = element.getAttribute('id');
+            const noteContent = element.innerHTML;
             if (id) {
-                footnoteMap.set(id, element.textContent?.trim() || '');
+                footnoteMap.set(id, noteContent);
+                // Store links in the footnote for later processing
+                const links = element.getElementsByTagName('a');
+                if (links.length > 0) {
+                    footnoteLinks.set(id, Array.from(links));
+                }
             }
+        });
+
+        // Second pass - collect footnote content from linked elements
+        footnoteLinks.forEach((links, id) => {
+            links.forEach(link => {
+                const href = link.getAttribute('href')?.replace(/^#/, '');
+                if (href && !footnoteMap.has(id)) {
+                    const linkedElement = doc.getElementById(href);
+                    if (linkedElement) {
+                        footnoteMap.set(id, linkedElement.innerHTML);
+                    }
+                }
+            });
         });
 
         const footnoteContent = Array.from(footnotes).map(footnote => {
@@ -291,9 +311,17 @@ export default class EpubProcessor {
             if (!content) return '';
 
             // Clean up the content
-            content = content.replace(/^[\d\s.]+/, ''); // Remove leading numbers
-            content = content.replace(/\s+/g, ' ').trim(); // Normalize whitespace
+            content = content
+                .replace(/<a[^>]*>.*?<\/a>/g, '') // Remove reference links
+                .replace(/<[^>]+>/g, '') // Remove remaining HTML tags
+                .replace(/^[\d\s.]+/, '') // Remove leading numbers
+                .replace(/\s+/g, ' ') // Normalize whitespace
+                .replace(/^\[.*?\]/, '') // Remove reference brackets
+                .trim();
 
+            if (!content) return '';
+
+            // Add proper markdown footnote format
             return `[^${id}]: ${content}`;
         }).filter(note => note).join('\n\n');
 
