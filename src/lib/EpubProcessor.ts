@@ -131,9 +131,13 @@ export default class EpubProcessor {
         const paths = this.getChapterPaths(chapter);
         const notePath = path.posix.join(folderPath, ...paths.map(normalize));
 
-        await this.app.vault.createFolder(path.dirname(notePath)).catch(() => {/**/ });
-
+        // Skip creating files for chapters without content
         const content = this.generateChapterContent(chapter, index, allChapters);
+        if (!content.trim()) {
+            return notePath;
+        }
+
+        await this.app.vault.createFolder(path.dirname(notePath)).catch(() => {/**/ });
 
         try {
             await this.app.vault.create(notePath + ".md", content);
