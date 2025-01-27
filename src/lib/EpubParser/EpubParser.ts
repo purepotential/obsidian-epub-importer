@@ -41,26 +41,38 @@ export class EpubParser {
 			await this.parseContent();
 			if (this.moreLog) console.log("Epub parsing completed successfully");
 		} catch (e) {
-			console.log(e);
-			throw new Error("failed to parse the .epub file");
+			console.error("Failed to parse epub file:", e);
+			if (e instanceof Error) {
+				throw new Error(`Failed to parse epub file: ${e.message}`);
+			} else {
+				throw new Error("Failed to parse epub file: Unknown error occurred");
+			}
 		}
 	}
 
 	private async extractEpub() {
+		if (!jetpack.exists(this.epubPath)) {
+			throw new Error(`Epub file not found at path: ${this.epubPath}`);
+		}
+
 		this.tmpPath = jetpack.tmpDir().path();
 		if (this.moreLog) {
 			console.log("Creating temporary directory at:", this.tmpPath);
 			console.log("Starting epub extraction...");
 		}
 
-		if (path.extname(this.epubPath) != "") {
-			if (this.moreLog) console.log("Extracting epub file to temporary directory");
-			await extract(this.epubPath, { dir: this.tmpPath });
-		} else {
-			if (this.moreLog) console.log("Copying unzipped epub folder to temporary directory");
-			jetpack.copy(this.epubPath, this.tmpPath, { overwrite: true });
+		try {
+			if (path.extname(this.epubPath) != "") {
+				if (this.moreLog) console.log("Extracting epub file to temporary directory");
+				await extract(this.epubPath, { dir: this.tmpPath });
+			} else {
+				if (this.moreLog) console.log("Copying unzipped epub folder to temporary directory");
+				jetpack.copy(this.epubPath, this.tmpPath, { overwrite: true });
+			}
+			if (this.moreLog) console.log("Epub extraction completed");
+		} catch (e) {
+			throw new Error(`Failed to extract epub file: ${e instanceof Error ? e.message : 'Unknown error'}`);
 		}
-		if (this.moreLog) console.log("Epub extraction completed");
 	}
 
 	private async parseOPFandNCX() {
