@@ -31,7 +31,10 @@ export class NCXParser {
 
             if (!title) return null;
 
-            const filePath = path.posix.join(path.dirname(this.filePath), findProperty(navPoint,"content")[0].$["src"].replace(/%20/g, " "));
+            const src = findProperty(navPoint,"content")[0].$["src"];
+                // Remove toc.xhtml references and anchors
+                const cleanSrc = src.split("#")[0].replace(/%20/g, " ").replace(/toc\.xhtml/g, "");
+                const filePath = path.posix.join(path.dirname(this.filePath), cleanSrc);
             const subItems = navPoint["navPoint"]?.map(pt => getToc(pt, level + 1)) || [];
             const chapter = new Chapter(title, filePath, subItems, level);
             subItems.forEach(sub => sub.parent = chapter);

@@ -234,12 +234,14 @@ export default class EpubProcessor {
         const doc = new DOMParser().parseFromString(htmlString, "text/html");
         
         // Extract footnotes
-        const footnotes = doc.querySelectorAll('[id^="footnote"], .footnote');
+        const footnotes = doc.querySelectorAll('[id^="footnote"], .footnote, [id^="-"], [id$="-backlink"]');
         const footnoteContent = Array.from(footnotes).map(footnote => {
-            const id = footnote.getAttribute('id')?.replace('footnote', '') || '';
+            let id = footnote.getAttribute('id') || '';
+            id = id.replace('footnote', '').replace('-backlink', '').replace(/^-+|-+$/g, '');
             const content = footnote.textContent?.trim() || '';
+            if (!id || !content) return '';
             return `[^${id}]: ${content}`;
-        }).join('\n\n');
+        }).filter(note => note).join('\n\n');
 
         // Remove empty tables
         doc.querySelectorAll("table").forEach(table => {
