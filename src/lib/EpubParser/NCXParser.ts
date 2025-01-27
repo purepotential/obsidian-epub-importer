@@ -20,7 +20,10 @@ export class NCXParser {
 
         const getToc = (navPoint, level) => {
             const title = navPoint.navLabel?.[0]?.text?.[0] || (() => {
-                const filePath = path.posix.join(path.dirname(this.filePath), findProperty(navPoint,"content")[0].$["src"].replace(/%20/g, " "));
+                const src = findProperty(navPoint,"content")[0].$["src"];
+                // Remove toc.xhtml references
+                const cleanSrc = src.split("#")[0].replace(/%20/g, " ");
+                const filePath = path.posix.join(path.dirname(this.filePath), cleanSrc);
                 const html = jetpack.read(filePath);
                 return new DOMParser().parseFromString(html, "text/html").title ||
                     path.basename(filePath, path.extname(filePath)) || "";

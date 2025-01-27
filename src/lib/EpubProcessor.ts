@@ -230,6 +230,15 @@ export default class EpubProcessor {
             htmlString = beautify.html(htmlString, { indent_size: 0 });
         }
 
+        // Extract footnotes
+        const doc = new DOMParser().parseFromString(htmlString, "text/html");
+        const footnotes = doc.querySelectorAll('[id^="footnote"], .footnote');
+        const footnoteContent = Array.from(footnotes).map(footnote => {
+            const id = footnote.getAttribute('id')?.replace('footnote', '') || '';
+            const content = footnote.textContent?.trim() || '';
+            return `[^${id}]: ${content}`;
+        }).join('\n\n');
+
         // Remove empty tables
         const doc = new DOMParser().parseFromString(htmlString, "text/html");
         doc.querySelectorAll("table").forEach(table => {
@@ -254,6 +263,7 @@ export default class EpubProcessor {
             }
         }
 
-        return markdown;
+        // Append footnotes if they exist
+        return footnoteContent ? `${markdown}\n\n${footnoteContent}` : markdown;
     }
 }
