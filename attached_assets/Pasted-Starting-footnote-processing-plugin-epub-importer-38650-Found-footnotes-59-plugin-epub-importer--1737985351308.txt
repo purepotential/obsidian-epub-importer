@@ -1,0 +1,65 @@
+Starting footnote processing...
+plugin:epub-importer:38650 Found footnotes: 59
+plugin:epub-importer:38651 Footnote map size: 66
+plugin:epub-importer:38652 Footnote map keys: (66) ['Brutalizm-8-Czlowieczenstwo-potencjalne', '_idContainer011', '8poganstwo', 'footnote-389-backlink', 'footnote-388-backlink', 'footnote-387-backlink', 'footnote-386-backlink', 'footnote-385-backlink', 'footnote-384-backlink', 'footnote-383-backlink', 'footnote-382-backlink', 'footnote-381-backlink', 'footnote-380-backlink', 'footnote-379-backlink', 'footnote-378-backlink', 'footnote-377-backlink', 'footnote-376-backlink', 'footnote-375-backlink', 'footnote-374-backlink', 'footnote-373-backlink', 'footnote-372-backlink', 'footnote-371-backlink', 'footnote-370-backlink', 'footnote-369-backlink', 'footnote-368-backlink', 'footnote-367-backlink', '8roznica', 'footnote-366-backlink', 'footnote-365-backlink', 'footnote-364-backlink', 'footnote-363-backlink', 'footnote-362-backlink', 'footnote-361-backlink', 'footnote-360-backlink', 'footnote-359-backlink', 'footnote-358-backlink', 'footnote-357-backlink', 'footnote-356-backlink', 'footnote-355-backlink', 'footnote-354-backlink', 'footnote-353-backlink', 'footnote-352-backlink', 'footnote-351-backlink', '8brzemie', 'footnote-350-backlink', 'footnote-349-backlink', 'footnote-348-backlink', 'footnote-347-backlink', 'footnote-346-backlink', 'footnote-345-backlink', 'footnote-344-backlink', 'footnote-343-backlink', '8utrata', 'footnote-342-backlink', 'footnote-341-backlink', 'footnote-340-backlink', 'footnote-339-backlink', 'footnote-338-backlink', '8moc', 'footnote-337-backlink', 'footnote-336-backlink', 'footnote-335-backlink', 'footnote-334-backlink', 'footnote-333-backlink', 'footnote-332-backlink', 'footnote-331-backlink']
+plugin:epub-importer:38653 Footnotes HTML: (3) ['<a id="footnote-389-backlink" class="_idFootnoteLi…Brutalizm-12-Przypisy.xhtml#footnote-389">[1]</a>', '<a id="footnote-388-backlink" class="_idFootnoteLi…Brutalizm-12-Przypisy.xhtml#footnote-388">[2]</a>', '<a id="footnote-387-backlink" class="_idFootnoteLi…Brutalizm-12-Przypisy.xhtml#footnote-387">[3]</a>']
+plugin:epub-importer:38667 Processing footnote: {id: '389', href: 'Brutalizm-12-Przypisy.xhtml#footnote-389', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '388', href: 'Brutalizm-12-Przypisy.xhtml#footnote-388', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '387', href: 'Brutalizm-12-Przypisy.xhtml#footnote-387', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '386', href: 'Brutalizm-12-Przypisy.xhtml#footnote-386', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '385', href: 'Brutalizm-12-Przypisy.xhtml#footnote-385', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '384', href: 'Brutalizm-12-Przypisy.xhtml#footnote-384', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '383', href: 'Brutalizm-12-Przypisy.xhtml#footnote-383', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '382', href: 'Brutalizm-12-Przypisy.xhtml#footnote-382', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '381', href: 'Brutalizm-12-Przypisy.xhtml#footnote-381', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '380', href: 'Brutalizm-12-Przypisy.xhtml#footnote-380', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '379', href: 'Brutalizm-12-Przypisy.xhtml#footnote-379', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '378', href: 'Brutalizm-12-Przypisy.xhtml#footnote-378', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '377', href: 'Brutalizm-12-Przypisy.xhtml#footnote-377', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '376', href: 'Brutalizm-12-Przypisy.xhtml#footnote-376', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '375', href: 'Brutalizm-12-Przypisy.xhtml#footnote-375', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '374', href: 'Brutalizm-12-Przypisy.xhtml#footnote-374', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '373', href: 'Brutalizm-12-Przypisy.xhtml#footnote-373', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '372', href: 'Brutalizm-12-Przypisy.xhtml#footnote-372', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '371', href: 'Brutalizm-12-Przypisy.xhtml#footnote-371', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '370', href: 'Brutalizm-12-Przypisy.xhtml#footnote-370', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '369', href: 'Brutalizm-12-Przypisy.xhtml#footnote-369', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '368', href: 'Brutalizm-12-Przypisy.xhtml#footnote-368', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '367', href: 'Brutalizm-12-Przypisy.xhtml#footnote-367', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '366', href: 'Brutalizm-12-Przypisy.xhtml#footnote-366', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '365', href: 'Brutalizm-12-Przypisy.xhtml#footnote-365', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '364', href: 'Brutalizm-12-Przypisy.xhtml#footnote-364', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '363', href: 'Brutalizm-12-Przypisy.xhtml#footnote-363', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '362', href: 'Brutalizm-12-Przypisy.xhtml#footnote-362', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '361', href: 'Brutalizm-12-Przypisy.xhtml#footnote-361', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '360', href: 'Brutalizm-12-Przypisy.xhtml#footnote-360', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '359', href: 'Brutalizm-12-Przypisy.xhtml#footnote-359', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '358', href: 'Brutalizm-12-Przypisy.xhtml#footnote-358', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '357', href: 'Brutalizm-12-Przypisy.xhtml#footnote-357', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '356', href: 'Brutalizm-12-Przypisy.xhtml#footnote-356', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '355', href: 'Brutalizm-12-Przypisy.xhtml#footnote-355', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '354', href: 'Brutalizm-12-Przypisy.xhtml#footnote-354', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '353', href: 'Brutalizm-12-Przypisy.xhtml#footnote-353', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '352', href: 'Brutalizm-12-Przypisy.xhtml#footnote-352', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '351', href: 'Brutalizm-12-Przypisy.xhtml#footnote-351', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '350', href: 'Brutalizm-12-Przypisy.xhtml#footnote-350', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '349', href: 'Brutalizm-12-Przypisy.xhtml#footnote-349', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '348', href: 'Brutalizm-12-Przypisy.xhtml#footnote-348', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '347', href: 'Brutalizm-12-Przypisy.xhtml#footnote-347', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '346', href: 'Brutalizm-12-Przypisy.xhtml#footnote-346', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '345', href: 'Brutalizm-12-Przypisy.xhtml#footnote-345', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '344', href: 'Brutalizm-12-Przypisy.xhtml#footnote-344', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '343', href: 'Brutalizm-12-Przypisy.xhtml#footnote-343', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '342', href: 'Brutalizm-12-Przypisy.xhtml#footnote-342', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '341', href: 'Brutalizm-12-Przypisy.xhtml#footnote-341', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '340', href: 'Brutalizm-12-Przypisy.xhtml#footnote-340', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '339', href: 'Brutalizm-12-Przypisy.xhtml#footnote-339', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '338', href: 'Brutalizm-12-Przypisy.xhtml#footnote-338', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '337', href: 'Brutalizm-12-Przypisy.xhtml#footnote-337', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '336', href: 'Brutalizm-12-Przypisy.xhtml#footnote-336', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '335', href: 'Brutalizm-12-Przypisy.xhtml#footnote-335', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '334', href: 'Brutalizm-12-Przypisy.xhtml#footnote-334', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '333', href: 'Brutalizm-12-Przypisy.xhtml#footnote-333', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '332', href: 'Brutalizm-12-Przypisy.xhtml#footnote-332', contentLength: 0}
+plugin:epub-importer:38667 Processing footnote: {id: '331', href: 'Brutalizm-12-Przypisy.xhtml#footnote-331', contentLength: 0}
+plugin:epub-importer:38712 No footnote content generated
