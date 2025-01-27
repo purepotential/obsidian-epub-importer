@@ -237,7 +237,7 @@ export default class EpubProcessor {
         const doc = parser.parseFromString(htmlString, "text/html");
 
         console.log('Starting footnote processing...');
-        
+
         // Extract footnotes with content using a broader set of selectors to handle different EPUB formats
         const footnotes = doc.querySelectorAll([
             '[id^="footnote"]', '[id*="footnote"]', '.footnote', 
@@ -272,7 +272,7 @@ export default class EpubProcessor {
             links.forEach(link => {
                 const href = link.getAttribute('href')?.replace(/^#/, '');
                 if (!href) return;
-                
+
                 // Try to find content in both current document and footnoteMap
                 const linkedElement = doc.getElementById(href);
                 if (linkedElement && (!footnoteMap.has(id) || linkedElement.textContent.length > footnoteMap.get(id).length)) {
@@ -285,7 +285,7 @@ export default class EpubProcessor {
         console.log('Footnote map size:', footnoteMap.size);
         console.log('Footnote map keys:', Array.from(footnoteMap.keys()));
         console.log('Footnotes HTML:', Array.from(footnotes).map(f => f.outerHTML).slice(0, 3));
-        
+
         const footnoteContent = Array.from(footnotes).map(footnote => {
             let id = footnote.getAttribute('id') || '';
             let href = footnote.getAttribute('href')?.replace(/^#/, '') || '';
@@ -320,21 +320,26 @@ export default class EpubProcessor {
             // If footnote is a reference, try to get content from the target
             if (href) {
                 console.log('Attempting to fetch footnote content for href:', href);
-                // Extract the actual ID from the href (removing file reference)
-                const targetId = href.split('#')[1];
+                // Clean up href and try different variations to find content
+                const cleanHref = href.replace(/^.*#/, '').replace(/-backlink$/, '');
+                const targetId = cleanHref.replace(/^footnote-?/i, '');
+
                 if (targetId && footnoteMap.has(targetId)) {
                     const targetContent = footnoteMap.get(targetId);
-                    console.log('Found target content:', { targetId, contentLength: targetContent.length });
+                    console.log('Found target content:', { targetId, contentLength: targetContent?.length });
                     if (targetContent && targetContent.length > content.length) {
                         content = targetContent;
                     }
                 }
-                // Also try with full href
-                else if (footnoteMap.has(href)) {
-                    const targetContent = footnoteMap.get(href);
-                    console.log('Found target content with full href:', { href, contentLength: targetContent.length });
-                    if (targetContent && targetContent.length > content.length) {
-                        content = targetContent;
+                // Try other variations
+                const variations = [href, cleanHref, `footnote-${targetId}`];
+                for (const variant of variations) {
+                    if (footnoteMap.has(variant)) {
+                        const targetContent = footnoteMap.get(variant);
+                        console.log('Found target content with variant:', { variant, contentLength: targetContent?.length });
+                        if (targetContent && targetContent.length > content.length) {
+                            content = targetContent;
+                        }
                     }
                 }
             }
