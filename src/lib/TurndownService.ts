@@ -74,6 +74,7 @@ export function create(assetsPath: string, imageFormat: string): TurndownService
     replacement: (content, node) => {
       const href = node.getAttribute("href");
       const text = node.textContent;
+      if (!href) return text;
       if (href === text) {
         return `[[${href}]]`;
       }
