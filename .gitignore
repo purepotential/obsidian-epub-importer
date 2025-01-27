@@ -12,3 +12,4 @@ data.json
 styles.css
 !src/styles.css
 coverage
+data/**
