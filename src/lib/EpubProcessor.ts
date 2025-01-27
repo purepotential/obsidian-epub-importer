@@ -406,11 +406,12 @@ export default class EpubProcessor {
         if (footnoteContent) {
             console.log('Generated footnote content:', footnoteContent);
             markdown = markdown.trim();
-            markdown += '\n\n' + footnoteContent.trim();
+            // Force append footnotes with double newline
+            markdown = markdown + '\n\n' + footnoteContent.trim() + '\n';
         } else {
             console.log('No footnote content generated');
         }
 
-        return markdown;
+        return markdown.trim();
     }
 }
