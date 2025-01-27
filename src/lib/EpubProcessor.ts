@@ -318,10 +318,24 @@ export default class EpubProcessor {
             content = footnote.textContent?.trim() || '';
 
             // If footnote is a reference, try to get content from the target
-            if (href && footnoteMap.has(href)) {
-                const targetContent = footnoteMap.get(href);
-                if (targetContent && targetContent.length > content.length) {
-                    content = targetContent;
+            if (href) {
+                console.log('Attempting to fetch footnote content for href:', href);
+                // Extract the actual ID from the href (removing file reference)
+                const targetId = href.split('#')[1];
+                if (targetId && footnoteMap.has(targetId)) {
+                    const targetContent = footnoteMap.get(targetId);
+                    console.log('Found target content:', { targetId, contentLength: targetContent.length });
+                    if (targetContent && targetContent.length > content.length) {
+                        content = targetContent;
+                    }
+                }
+                // Also try with full href
+                else if (footnoteMap.has(href)) {
+                    const targetContent = footnoteMap.get(href);
+                    console.log('Found target content with full href:', { href, contentLength: targetContent.length });
+                    if (targetContent && targetContent.length > content.length) {
+                        content = targetContent;
+                    }
                 }
             }
 
