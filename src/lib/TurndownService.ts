@@ -104,6 +104,9 @@ export function create(assetsPath: string, imageFormat: string): TurndownService
       const href = node.getAttribute("href");
       const text = node.textContent;
       if (!href) return text;
+      if (href.includes("toc.xhtml#")) {
+        return text;
+      }
       if (href === text) {
         return `[[${href}]]`;
       }

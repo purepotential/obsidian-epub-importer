@@ -19,15 +19,26 @@ export class NCXParser {
         const navPoints = findProperty(this.content, ["navPoint", "navpoint"]);
 
         const getToc = (navPoint, level) => {
-            const title = navPoint.navLabel?.[0]?.text?.[0] || (() => {
-                const src = findProperty(navPoint,"content")[0].$["src"];
+            let title = navPoint.navLabel?.[0]?.text?.[0];
+            let src = findProperty(navPoint,"content")[0].$["src"];
+
+            // If title is not directly available, try to extract it
+            if (!title) {
                 const cleanSrc = src.replace(/toc\.xhtml(#.*)?/g, "").replace(/%20/g, " ");
                 const filePath = cleanSrc ? path.posix.join(path.dirname(this.filePath), cleanSrc) : "";
-                if (!filePath || !jetpack.exists(filePath)) return path.basename(src, path.extname(src)) || "";
-                const html = jetpack.read(filePath);
-                return new DOMParser().parseFromString(html, "text/html").title ||
-                    path.basename(filePath, path.extname(filePath)) || "";
-            })();
+                if (!filePath || !jetpack.exists(filePath)) {
+                    title = path.basename(src, path.extname(src)) || "";
+                } else {
+                    const html = jetpack.read(filePath);
+                    title = new DOMParser().parseFromString(html, "text/html").title ||
+                        path.basename(filePath, path.extname(filePath)) || "";
+                }
+            }
+
+            // Handle toc.xhtml links specially - remove them and just use the title
+            if (src.includes("toc.xhtml#")) {
+                src = src.replace(/toc\.xhtml#.*/, "");
+            }
 
             if (!title) return null;
 

@@ -109,7 +109,8 @@ export default class EpubProcessor {
 
         for (const [index, chapter] of filteredChapters.entries()) {
             const notePath = await this.createChapterNote(chapter, folderPath, index, filteredChapters);
-            this.BookNote += `${"\t".repeat(chapter.level)}- [[${notePath}|${chapter.name}]]\n`;
+            const cleanChapterName = chapter.name.replace(/\[\[toc\.xhtml#.*?\|(.+?)\]\]/, "$1");
+            this.BookNote += `${"\t".repeat(chapter.level)}- [[${notePath}|${cleanChapterName}]]\n`;
         }
 
         await this.createMocFile(folderPath, epubName);
