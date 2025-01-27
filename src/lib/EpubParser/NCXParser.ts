@@ -21,9 +21,9 @@ export class NCXParser {
         const getToc = (navPoint, level) => {
             const title = navPoint.navLabel?.[0]?.text?.[0] || (() => {
                 const src = findProperty(navPoint,"content")[0].$["src"];
-                // Remove toc.xhtml references
-                const cleanSrc = src.split("#")[0].replace(/%20/g, " ");
-                const filePath = path.posix.join(path.dirname(this.filePath), cleanSrc);
+                const cleanSrc = src.replace(/toc\.xhtml(#.*)?/g, "").replace(/%20/g, " ");
+                const filePath = cleanSrc ? path.posix.join(path.dirname(this.filePath), cleanSrc) : "";
+                if (!filePath || !jetpack.exists(filePath)) return path.basename(src, path.extname(src)) || "";
                 const html = jetpack.read(filePath);
                 return new DOMParser().parseFromString(html, "text/html").title ||
                     path.basename(filePath, path.extname(filePath)) || "";
@@ -32,9 +32,9 @@ export class NCXParser {
             if (!title) return null;
 
             const src = findProperty(navPoint,"content")[0].$["src"];
-                // Remove toc.xhtml references and anchors
-                const cleanSrc = src.split("#")[0].replace(/%20/g, " ").replace(/toc\.xhtml/g, "");
-                const filePath = path.posix.join(path.dirname(this.filePath), cleanSrc);
+                const cleanSrc = src.replace(/toc\.xhtml(#.*)?/g, "").replace(/%20/g, " ");
+                const filePath = cleanSrc ? path.posix.join(path.dirname(this.filePath), cleanSrc) : "";
+                if (!filePath || !jetpack.exists(filePath)) return null;
             const subItems = navPoint["navPoint"]?.map(pt => getToc(pt, level + 1)) || [];
             const chapter = new Chapter(title, filePath, subItems, level);
             subItems.forEach(sub => sub.parent = chapter);
