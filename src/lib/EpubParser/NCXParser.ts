@@ -42,8 +42,7 @@ export class NCXParser {
 
             if (!title) return null;
 
-            const src = findProperty(navPoint,"content")[0].$["src"];
-                const cleanSrc = src.replace(/toc\.xhtml(#.*)?/g, "").replace(/%20/g, " ");
+            const cleanSrc = src.replace(/toc\.xhtml(#.*)?/g, "").replace(/%20/g, " ");
                 const filePath = cleanSrc ? path.posix.join(path.dirname(this.filePath), cleanSrc) : "";
                 if (!filePath || !jetpack.exists(filePath)) return null;
             const subItems = (navPoint["navPoint"]?.map(pt => getToc(pt, level + 1)) || []).filter(Boolean);
