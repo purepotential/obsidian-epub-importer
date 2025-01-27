@@ -1,0 +1,53 @@
+ > src/lib/EpubProcessor.ts:243:14: error: "doc" has already been declared
+    243 │         const doc = new DOMParser().parseFromString(htmlString, "te...
+        ╵               ~~~
+   src/lib/EpubProcessor.ts:234:14: note: "doc" was originally declared here
+    234 │         const doc = new DOMParser().parseFromString(htmlString, "te...
+        ╵               ~~~
+
+1 error
+/Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:1160
+  let error = new Error(`${text}${summary}`);
+              ^
+
+Error: Build failed with 1 error:
+src/lib/EpubProcessor.ts:243:14: error: "doc" has already been declared
+    at failureErrorWithLog (/Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:1160:15)
+    at buildResponseToResult (/Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:896:32)
+    at /Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:991:20
+    at /Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:542:9
+    at handleIncomingPacket (/Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:631:9)
+    at Socket.readFromStdout (/Users/piotrbutlewski/repos/obsidian-epub-importer/node_modules/esbuild/lib/main.js:509:7)
+    at Socket.emit (node:events:507:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  errors: [
+    {
+      detail: undefined,
+      location: {
+        column: 14,
+        file: 'src/lib/EpubProcessor.ts',
+        length: 3,
+        line: 243,
+        lineText: '        const doc = new DOMParser().parseFromString(htmlString, "text/html");',
+        namespace: ''
+      },
+      notes: [
+        {
+          location: {
+            column: 14,
+            file: 'src/lib/EpubProcessor.ts',
+            length: 3,
+            line: 234,
+            lineText: '        const doc = new DOMParser().parseFromString(htmlString, "text/html");',
+            namespace: ''
+          },
+          text: '"doc" was originally declared here'
+        }
+      ],
+      text: '"doc" has already been declared'
+    }
+  ],
+  warnings: []
+}
