@@ -359,7 +359,15 @@ export default class EpubProcessor {
             }
         }
 
-        // Append footnotes if they exist
-        return footnoteContent ? `${markdown}\n\n${footnoteContent}` : markdown;
+        // Clean up footnotes from main content to avoid duplicates
+        markdown = markdown.replace(/\[\^\d+\]:.+?\n\n/g, '');
+
+        // Ensure there's always two newlines before footnotes
+        if (footnoteContent) {
+            markdown = markdown.trim();
+            markdown += '\n\n' + footnoteContent.trim();
+        }
+
+        return markdown;
     }
 }
