@@ -324,22 +324,32 @@ export default class EpubProcessor {
             // Clean up the content
             content = content
                 .replace(/<a[^>]*>.*?<\/a>/g, '') // Remove reference links
+                .replace(/<sup[^>]*>.*?<\/sup>/g, '') // Remove sup elements
                 .replace(/<[^>]+>/g, '') // Remove remaining HTML tags
                 .replace(/^[\d\s.]+/, '') // Remove leading numbers
                 .replace(/\s+/g, ' ') // Normalize whitespace
                 .replace(/^\[.*?\]/, '') // Remove reference brackets
+                .replace(/^[\d]+\.?\s*/, '') // Remove leading numbers with dots
                 .trim();
 
             if (!content) return '';
 
-            // Add proper markdown footnote format
-            return `[^${id}]: ${content}`;
+            // Add proper markdown footnote format with two spaces for line break
+            return `[^${id}]: ${content}  `;
         }).filter(note => note).join('\n\n');
 
         // Remove empty tables
         doc.querySelectorAll("table").forEach(table => {
             const isEmpty = !Array.from(table.children).some(child => child.childElementCount > 0);
             if (isEmpty) table.remove();
+        });
+
+        // Process footnotes in the document before converting to markdown
+        doc.querySelectorAll('[role="doc-noteref"], .footnote-ref').forEach(ref => {
+            const id = ref.getAttribute('href')?.replace('#', '');
+            if (id) {
+                ref.textContent = `[^${id}]`;
+            }
         });
 
         // Convert to markdown
