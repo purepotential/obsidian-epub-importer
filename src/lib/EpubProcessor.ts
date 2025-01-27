@@ -236,6 +236,8 @@ export default class EpubProcessor {
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlString, "text/html");
 
+        console.log('Starting footnote processing...');
+        
         // Extract footnotes with content using a broader set of selectors to handle different EPUB formats
         const footnotes = doc.querySelectorAll([
             '[id^="footnote"]', '[id*="footnote"]', '.footnote', 
@@ -279,6 +281,9 @@ export default class EpubProcessor {
             });
         });
 
+        console.log('Found footnotes:', footnotes.length);
+        console.log('Footnote map size:', footnoteMap.size);
+        
         const footnoteContent = Array.from(footnotes).map(footnote => {
             let id = footnote.getAttribute('id') || '';
             let href = footnote.getAttribute('href')?.replace(/^#/, '') || '';
@@ -374,8 +379,11 @@ export default class EpubProcessor {
 
         // Ensure there's always two newlines before footnotes
         if (footnoteContent) {
+            console.log('Generated footnote content:', footnoteContent);
             markdown = markdown.trim();
             markdown += '\n\n' + footnoteContent.trim();
+        } else {
+            console.log('No footnote content generated');
         }
 
         return markdown;
